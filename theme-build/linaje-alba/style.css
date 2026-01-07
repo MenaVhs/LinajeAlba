@@ -1,0 +1,508 @@
+/*
+Theme Name: Linaje Alba
+Theme URI: https://example.com/linaje-alba
+Author: Antigravity
+Author URI: https://example.com
+Description: A premium, minimalist WordPress theme for Linaje Alba.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: linaje-alba
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Jafra x The Ordinary Palette */
+    --jafra-dark: #421A6B;
+    --jafra-purple: #843A96;
+    --jafra-magenta: #B8559D;
+    --jafra-pink: #EB679A;
+    --jafra-blue: #5FB0DB;
+    --jafra-teal: #42A8A1;
+    --jafra-lime: #C4D976;
+
+    --background: #ffffff;
+    --surface: #f9f9f9;
+    --text-main: #1D1D1F;
+    --text-muted: #6e6e73;
+    --border: #e5e5e5;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+}
+
+.brand-tag {
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Utility Bar */
+.utility-bar {
+    background-color: var(--jafra-dark);
+    color: #fff;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Header */
+.header {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo-img {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--jafra-dark);
+}
+
+.logo-img img {
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.nav-links a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-links a:hover {
+    color: var(--jafra-purple);
+}
+
+.nav-actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-actions i {
+    cursor: pointer;
+}
+
+.btn-regimen {
+    background: var(--text-main);
+    color: #fff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.btn-regimen:hover {
+    background: var(--jafra-dark);
+}
+
+/* Hero */
+.hero {
+    background: var(--surface);
+    padding: 4rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-content .brand-tag {
+    color: var(--jafra-purple);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-outline {
+    border: 1px solid var(--text-main);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Specialized Hero Polish */
+.hero-image.personal-branded {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    height: 500px;
+}
+
+.float-image {
+    height: 110%;
+    width: auto;
+    object-fit: cover;
+    z-index: 2;
+    position: relative;
+    margin-top: -10%;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+}
+
+/* Product Grid */
+.section-title {
+    padding: 4rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+}
+
+.section-title h2 {
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    margin-bottom: 6rem;
+}
+
+.product-card {
+    padding: 2.5rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    background: var(--surface);
+}
+
+.product-image {
+    background: transparent;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.product-image img {
+    max-width: 90%;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.05));
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.08) translateY(-5px);
+}
+
+/* Category Color Coding */
+.product-card[data-category="glow"] .product-benefit {
+    color: var(--jafra-lime);
+}
+
+.product-card[data-category="hydration"] .product-benefit {
+    color: var(--jafra-blue);
+}
+
+.product-card[data-category="purifying"] .product-benefit {
+    color: var(--jafra-teal);
+}
+
+.product-card[data-category="fragrance"] .product-benefit {
+    color: var(--jafra-magenta);
+}
+
+.product-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: #fff;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+}
+
+.product-info h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    height: 2.4em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-category {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.product-benefit {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--jafra-purple);
+}
+
+.product-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 1.5rem;
+    border-top: none;
+}
+
+.price {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.btn-add {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-main);
+    position: relative;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.btn-add::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--text-main);
+    transition: transform 0.3s ease;
+    transform-origin: right;
+    transform: scaleX(0);
+}
+
+.product-card:hover .btn-add::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Opportunity Section */
+.opportunity {
+    background: var(--jafra-dark);
+    color: #fff;
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.opportunity-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.opportunity h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.opportunity p {
+    font-size: 1.25rem;
+    opacity: 0.8;
+    margin-bottom: 2.5rem;
+}
+
+.btn-join {
+    background: #fff;
+    color: var(--jafra-dark);
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.btn-join:hover {
+    background: var(--jafra-lime);
+    color: var(--jafra-dark);
+}
+
+/* Footer */
+.footer-main {
+    padding: 6rem 0 3rem;
+    background: #fff;
+    border-top: 1px solid var(--border);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+}
+
+.footer-col h4 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+.footer-col ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-col ul li a {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.footer-col ul li a:hover {
+    color: var(--text-main);
+}
+
+.footer-bottom {
+    margin-top: 6rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Reveal Animation */
+.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .nav-links,
+    .nav-actions .btn-regimen {
+        display: none;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+}
