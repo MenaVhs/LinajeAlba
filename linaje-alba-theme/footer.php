@@ -2,12 +2,12 @@
         <div class="container footer-grid">
             <div class="footer-col">
                 <a href="<?php echo home_url(); ?>" class="logo-img">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="Linaje Alba Logo" style="height: 40px; margin-bottom: 0.5rem;">
+                    <img src="<?php echo get_template_directory_uri(); ?>/media/logo.png" alt="LinajeAlba Logo" style="height: 40px; margin-bottom: 0.5rem;">
                     <br>
-                    <span>Linaje Alba</span>
+                    <span>LinajeAlba</span>
                 </a>
                 <p style="margin-top: 1rem; color: var(--text-muted);">Innovación en belleza y libertad financiera para
-                    miles de consultoras en todo el mundo.</p>
+                    miles de consultores en todo el mundo.</p>
             </div>
             <div class="footer-col">
                 <h4>Empresa</h4>
@@ -20,7 +20,7 @@
             <div class="footer-col">
                 <h4>Oportunidad</h4>
                 <ul>
-                    <li><a href="#">Ser Consultora</a></li>
+                    <li><a href="#">Ser Consultor(a)</a></li>
                     <li><a href="#">Plan de Compensación</a></li>
                     <li><a href="#">Historias de Éxito</a></li>
                 </ul>

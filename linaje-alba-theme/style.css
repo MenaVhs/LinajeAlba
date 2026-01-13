@@ -570,7 +570,6 @@ ul {
     scroll-behavior: smooth;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    border-left: 1px solid var(--border);
     border-top: 1px solid var(--border);
 }
 
@@ -689,6 +688,14 @@ ul {
     font-size: 0.8rem;
     text-align: center;
     border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.highlight-img {
+    width: 40%;
+    height: auto;
+    max-height: 150px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 .highlight-content h3 {
@@ -1286,5 +1293,355 @@ ul {
 
     .registration-container {
         padding: 1.5rem;
+    }
+}
+
+/* Profile Link Overlay */
+.hero-image.personal-branded {
+    position: relative;
+    /* Ensure parent is relative for absolute positioning */
+}
+
+.profile-link-overlay {
+    position: absolute;
+    bottom: 10%;
+    left: 8%;
+    /* Moved to left side */
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000000;
+    padding: 0.6rem 1.5rem;
+    /* Match .btn-regimen padding */
+    border-radius: 50px;
+    font-weight: 600;
+    /* Match .btn-regimen font-weight */
+    font-size: 0.8rem;
+    /* Match .btn-regimen font-size */
+    text-transform: uppercase;
+    letter-spacing: normal;
+    /* Reset letter-spacing to match or keep minimal */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.profile-link-overlay:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(66, 26, 107, 0.25);
+    /* Purple tinted shadow */
+    background-color: var(--jafra-dark);
+    /* Jafra Dark Purple on hover */
+    color: #fff;
+    /* White text on hover */
+}
+
+/* VIP Event Image */
+.vip-event-image-container {
+    margin-top: 4rem;
+    text-align: center;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.vip-event-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* VIP Download Button */
+.btn-vip-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--text-main);
+    /* Base color similar to profile btn start or text-main */
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.btn-vip-download:hover {
+    background-color: var(--jafra-dark);
+    /* Jafra Purple on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(66, 26, 107, 0.25);
+}
+
+/* Jafra Points Section */
+.points-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #fdfbfd 0%, #f4eff6 100%);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.points-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.points-header h2 {
+    font-size: 2.5rem;
+    color: var(--jafra-magenta);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.points-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.points-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(132, 58, 150, 0.1);
+    border: 1px solid rgba(132, 58, 150, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.points-card:hover {
+    transform: translateY(-5px);
+}
+
+.points-info h3 {
+    font-size: 1.8rem;
+    color: var(--jafra-dark);
+    margin-bottom: 1rem;
+}
+
+.points-info p {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+}
+
+.points-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-points-view,
+.btn-points-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-points-view {
+    background-color: var(--jafra-magenta);
+    color: white;
+    box-shadow: 0 4px 15px rgba(184, 85, 157, 0.3);
+}
+
+.btn-points-view:hover {
+    background-color: var(--jafra-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 26, 107, 0.4);
+}
+
+.btn-points-download {
+    background-color: transparent;
+    color: var(--jafra-magenta);
+    border: 2px solid var(--jafra-magenta);
+}
+
+.btn-points-download:hover {
+    background-color: var(--jafra-magenta);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .points-header h2 {
+        font-size: 2rem;
+    }
+
+    .points-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .points-actions {
+        flex-direction: column;
+    }
+
+    .btn-points-view,
+    .btn-points-download {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .profile-link-overlay {
+        bottom: 0;
+        right: 50%;
+        transform: translate(50%, 50%);
+        /* Center bottom */
+        width: max-content;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-link-overlay:hover {
+        transform: translate(50%, 50%) translateY(-3px);
+    }
+}
+
+/* Monthly Catalog Section */
+.catalog-section {
+    padding: 5rem 0;
+    background-color: var(--surface);
+    /* Light background */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.catalog-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+}
+
+.catalog-text {
+    flex: 1;
+}
+
+.catalog-text h3 {
+    font-size: 1.2rem;
+    color: var(--jafra-dark);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.catalog-text h2 {
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.catalog-text .highlight-text {
+    color: var(--jafra-magenta);
+    display: block;
+}
+
+.catalog-text p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+}
+
+.catalog-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-catalog {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-catalog.primary {
+    background-color: var(--jafra-dark);
+    color: white;
+    box-shadow: 0 4px 15px rgba(66, 26, 107, 0.3);
+}
+
+.btn-catalog.primary:hover {
+    background-color: var(--text-main);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-catalog.secondary {
+    background-color: transparent;
+    color: var(--jafra-dark);
+    border: 2px solid var(--jafra-dark);
+}
+
+.btn-catalog.secondary:hover {
+    background-color: var(--jafra-dark);
+    color: white;
+}
+
+.catalog-preview {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.catalog-cover-mockup {
+    width: 250px;
+    height: 350px;
+    background: linear-gradient(135deg, var(--jafra-purple) 0%, var(--jafra-dark) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.catalog-cover-mockup:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .catalog-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+    }
+
+    .catalog-text h2 {
+        font-size: 2.5rem;
+    }
+
+    .catalog-text p {
+        margin: 0 auto 2rem;
+    }
+
+    .catalog-actions {
+        justify-content: center;
     }
 }

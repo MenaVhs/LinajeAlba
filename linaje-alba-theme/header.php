@@ -10,14 +10,14 @@
 
 <body <?php body_class(); ?>>
     <div class="utility-bar">
-        Únete hoy y obtén un 30% de descuento en tu primer pedido como Consultora
+        ¡En tu primer pedido pagando de contado, obtendrás un 10% de descuento extra!
     </div>
 
     <header class="header">
         <nav class="container nav-main">
             <a href="<?php echo home_url(); ?>" class="logo-img">
-                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" alt="Linaje Alba Logo" style="height: 50px;">
-                <span>Linaje Alba</span>
+                <img src="<?php echo get_template_directory_uri(); ?>/media/logo.png" alt="Linaje Alba Logo" style="height: 50px;">
+                <span>LinajeAlba</span>
             </a>
             <ul class="nav-links">
                 <li><a href="#skincare">Cuidado de la Piel</a></li>

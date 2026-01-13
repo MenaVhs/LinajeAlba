@@ -1,18 +1,13 @@
-
 // Header appearance on scroll
 const header = document.querySelector('.header');
 const utilityBar = document.querySelector('.utility-bar');
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
-        if (header) {
-            header.style.boxShadow = 'var(--shadow)';
-            header.style.transform = 'translateY(0)';
-        }
+        header.style.boxShadow = 'var(--shadow)';
+        header.style.transform = 'translateY(0)';
     } else {
-        if (header) {
-            header.style.boxShadow = 'none';
-        }
+        header.style.boxShadow = 'none';
     }
 });
 

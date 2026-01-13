@@ -1,7 +1,8 @@
 <?php
 function linaje_alba_scripts() {
     // Styles
-    wp_enqueue_style( 'linaje-alba-style', get_stylesheet_uri() );
+    // Styles - with filemtime for cache busting
+    wp_enqueue_style( 'linaje-alba-style', get_stylesheet_uri(), array(), filemtime( get_stylesheet_directory() . '/style.css' ) );
 
     // Scripts
     // Load Lucide Icons from UNPKG as done in the HTML
