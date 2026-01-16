@@ -125,101 +125,212 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. Form Validation
+    // 1.1 Populate State Dropdown
+    const regState = document.getElementById('regState');
+    if (regState) {
+        const states = [
+            "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas",
+            "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Guanajuato",
+            "Guerrero", "Hidalgo", "Jalisco", "México", "Michoacán", "Morelos", "Nayarit",
+            "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí",
+            "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"
+        ];
+        states.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            regState.appendChild(option);
+        });
+    }
+
+    // 2. Form Validation & Submission
     const form = document.getElementById('registrationForm');
     if (form) {
-        form.addEventListener('submit', (e) => {
+        // Helper to show inline error
+        const showError = (input, message) => {
+            const parent = input.parentElement;
+            let errorMsg = parent.querySelector('.error-message');
+            if (!errorMsg) {
+                errorMsg = document.createElement('span');
+                errorMsg.className = 'error-message';
+                parent.appendChild(errorMsg);
+            }
+            errorMsg.style.color = '#dc3545';
+            errorMsg.style.fontSize = '0.85rem';
+            errorMsg.style.marginTop = '0.25rem';
+            errorMsg.style.display = 'block';
+            errorMsg.textContent = message;
+            input.classList.add('input-error');
+        };
+
+        // Helper to clear error
+        const clearError = (input) => {
+            const errorEl = input.parentElement.querySelector('.error-message');
+            if (errorEl) {
+                errorEl.remove();
+            }
+            input.classList.remove('input-error');
+        };
+
+        // Clear errors on input
+        form.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', () => clearError(el));
+            el.addEventListener('change', () => clearError(el));
+        });
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            let errors = [];
+            let isValid = true;
 
             // A. Name: Letters only (Tu Nombre, Ref 1, Ref 2)
             const nameInputs = [
                 { el: document.getElementById('regName'), name: "Tu Nombre" },
+                { el: document.getElementById('regPaName'), name: "Apellido Paterno" }, // Added Logic
+                { el: document.getElementById('regMaName'), name: "Apellido Materno" }, // Added Logic
                 { el: document.getElementById('ref1Name'), name: "Nombre de Referencia 1" },
                 { el: document.getElementById('ref2Name'), name: "Nombre de Referencia 2" }
             ];
 
-            // Allow letters, spaces, typical accents
             const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
             nameInputs.forEach(input => {
                 if (input.el && input.el.value.trim() !== "") {
+                    // Check if required or just validation on filled
                     if (!nameRegex.test(input.el.value.trim())) {
-                        errors.push(`Error en ${input.name}: Solo se permiten letras (sin números ni símbolos).`);
+                        showError(input.el, `Solo se permiten letras en ${input.name}.`);
+                        isValid = false;
                     }
+                } else if (input.el && input.el.hasAttribute('required') && input.el.value.trim() === "") {
+                    showError(input.el, "Este campo es obligatorio.");
+                    isValid = false;
                 }
             });
 
-            // B. Phone: Exactly 10 digits (Tu Celular/Fijo, Ref 1/2 Celular)
+            // B. Phone: Exactly 10 digits
+            // Only validate 'regPhoneMobile' (WhatsApp) and References as mandatory. 
+            // 'regPhoneFixed' is optional but if filled, must be 10 digits.
             const phones = [
-                { el: document.getElementById('regPhoneMobile'), name: "Tu Celular" },
-                { el: document.getElementById('regPhoneFixed'), name: "Tu Teléfono Fijo" },
-                { el: document.getElementById('ref1Mobile'), name: "Celular de Referencia 1" },
-                { el: document.getElementById('ref2Mobile'), name: "Celular de Referencia 2" }
+                { el: document.getElementById('regPhoneWhatsApp'), name: "Tu WhatsApp", required: true },
+                { el: document.getElementById('regPhoneFixed'), name: "Tu Teléfono Fijo", required: false },
+                { el: document.getElementById('ref1Mobile'), name: "WhatsApp de Referencia 1", required: true },
+                { el: document.getElementById('ref2Mobile'), name: "WhatsApp de Referencia 2", required: true }
             ];
 
+            const phoneRegex = /^\d{10}$/;
+
             phones.forEach(phone => {
-                if (phone.el && phone.el.value.trim() !== "") {
-                    const phoneRegex = /^\d{10}$/;
-                    if (!phoneRegex.test(phone.el.value.trim())) {
-                        errors.push(`Error en ${phone.name}: Debe tener exactamente 10 dígitos (ni más ni menos).`);
+                const val = phone.el ? phone.el.value.trim() : "";
+                if (phone.el) {
+                    if (phone.required && !val) {
+                        showError(phone.el, `Este campo es obligatorio.`);
+                        isValid = false;
+                    } else if (val !== "") {
+                        if (!phoneRegex.test(val)) {
+                            showError(phone.el, `El número debe tener 10 dígitos.`);
+                            isValid = false;
+                        }
                     }
                 }
             });
 
-            // C. Postal Code: Max 6 digits
+            // C. Postal Code
             const cpInput = document.getElementById('regCP');
             const cpRegex = /^\d{1,6}$/;
-            if (cpInput && !cpRegex.test(cpInput.value.trim())) {
-                errors.push("Error en Código Postal: Debe ser numérico y máximo 6 dígitos.");
-            }
-
-            // D. Email Validation (@ check)
-            const emailInput = document.getElementById('regEmail');
-            if (emailInput && emailInput.value.trim() !== "") {
-                if (!emailInput.value.includes('@')) {
-                    errors.push("Error en Tu Correo: Falta el símbolo '@'.");
+            if (cpInput) {
+                if (cpInput.value.trim() === "") {
+                    showError(cpInput, "Código Postal obligatorio.");
+                    isValid = false;
+                } else if (!cpRegex.test(cpInput.value.trim())) {
+                    showError(cpInput, "Máximo 6 dígitos numéricos.");
+                    isValid = false;
                 }
             }
 
-            // E. Civil Status
-            const civilStatus = document.getElementById('civilStatus');
-            if (civilStatus && civilStatus.value === "") {
-                // Optional check depending on if it is required. Assuming optional based on HTML, but good to validate if selected.
-                // However, user asked to "add options", maybe implies requirement? 
-                // HTML doesn't have 'required' on it. I will leave it as is unless value implies 'Seleccionar'.
+            // D. Email
+            const emailInput = document.getElementById('regEmail');
+            if (emailInput) {
+                const val = emailInput.value.trim();
+                if (val === "") {
+                    showError(emailInput, "El correo es obligatorio.");
+                    isValid = false;
+                } else if (!val.includes('@')) {
+                    showError(emailInput, "El correo debe incluir un '@'.");
+                    isValid = false;
+                } else {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(val)) {
+                        showError(emailInput, "Formato de correo no válido.");
+                        isValid = false;
+                    }
+                }
             }
 
-            // D. Age Calculation (>= 18 years exactly)
+            // E. Date of Birth logic
             const d = parseInt(dobDay.value);
             const m = parseInt(dobMonth.value);
             const y = parseInt(dobYear.value);
 
             if (!d || !m || !y) {
-                errors.push("Por favor selecciona tu fecha de nacimiento completa.");
+                // Highlight all since it is a group
+                if (!d) showError(dobDay, "Día?");
+                if (!m) showError(dobMonth, "Mes?");
+                if (!y) showError(dobYear, "Año?");
+                isValid = false;
             } else {
-                const birthDate = new Date(y, m - 1, d); // Month is 0-indexed
+                const birthDate = new Date(y, m - 1, d);
                 const today = new Date();
-
                 let age = today.getFullYear() - birthDate.getFullYear();
                 const mDiff = today.getMonth() - birthDate.getMonth();
-
-                // Adjust age if birthday hasn't happened yet this year
                 if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
 
                 if (age < 18) {
-                    errors.push("Debes ser mayor de edad para registrarte (18 años cumplidos).");
+                    showError(dobYear, "Debes ser mayor de 18 años.");
+                    isValid = false;
                 }
             }
 
-            if (errors.length > 0) {
-                alert(errors.join("\n"));
-            } else {
-                alert("¡Formulario validado correctamente! Enviando datos...");
-                // form.submit(); // Uncomment to actually submit
+            if (isValid) {
+                // Prepare Data
+                const submitBtn = form.querySelector('.btn-submit');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+
+                const formData = {
+                    name: document.getElementById('regName').value + ' ' + (document.getElementById('regPaName')?.value || '') + ' ' + (document.getElementById('regMaName')?.value || ''),
+                    email: emailInput.value,
+                    phone: document.getElementById('regPhoneWhatsApp').value,
+                    cp: cpInput.value,
+                };
+
+                try {
+                    const response = await fetch('linaje-alba-theme/procesar.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert("¡Tu registro se ha enviado correctamente! Por favor, espera a que alguno de nuestros consultores te contacte.");
+                        form.reset();
+                    } else {
+                        alert("Error: " + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert("Ocurrió un error al enviar el formulario. Intenta de nuevo.");
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
             }
         });
     }
 });
+

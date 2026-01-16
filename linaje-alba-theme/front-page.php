@@ -507,79 +507,81 @@
                         lo contrario, no podremos completar tu registro.
                     </div>
 
-                    <form id="registrationForm">
-                        <div class="form-group full-width">
-                            <label class="form-label">Nombre(s):</label>
-                            <input type="text" class="form-input" id="regName" required>
-                        </div>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Apellido paterno:</label>
-                                <input type="text" class="form-input" id="regPaName">
+                        <form id="registrationForm" novalidate>
+                            <div class="form-group full-width">
+                                <label class="form-label">Nombre(s):</label>
+                                <input type="text" class="form-input" id="regName" name="first_name" required>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Apellido materno:</label>
-                                <input type="text" class="form-input" id="regMaName" required>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Apellido paterno:</label>
+                                    <input type="text" class="form-input" id="regPaName" name="last_name_p">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Apellido materno:</label>
+                                    <input type="text" class="form-input" id="regMaName" name="last_name_m" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group full-width">
-                            <label class="form-label">Correo electrónico:</label>
-                            <input type="email" class="form-input" id="regEmail" required>
-                        </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Correo electrónico:</label>
+                                <input type="email" class="form-input" id="regEmail" name="email" required>
+                            </div>
 
-                        <div class="form-group full-width">
-                            <label class="form-label">Fecha de nacimiento:</label>
-                            <div class="dob-group">
-                                <select class="form-select" id="dobMonth" required>
-                                    <option value="">Mes</option>
-                                </select>
-                                <select class="form-select" id="dobDay" required>
-                                    <option value="">Día</option>
-                                </select>
-                                <select class="form-select" id="dobYear" required>
-                                    <option value="">Año</option>
-                                </select>
+                            <div class="form-group full-width">
+                                <label class="form-label">Fecha de nacimiento:</label>
+                                <div class="dob-group">
+                                    <select class="form-select" id="dobMonth" name="dob_month" required>
+                                        <option value="">Mes</option>
+                                    </select>
+                                    <select class="form-select" id="dobDay" name="dob_day" required>
+                                        <option value="">Día</option>
+                                    </select>
+                                    <select class="form-select" id="dobYear" name="dob_year" required>
+                                        <option value="">Año</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Teléfono celular:</label>
-                                <input type="tel" class="form-input" id="regPhoneFixed">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono WhatsApp:</label>
+                                    <input type="tel" class="form-input" id="regPhoneWhatsApp" name="phone_whatsapp" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono fijo:</label>
+                                    <input type="tel" class="form-input" id="regPhoneFixed" name="phone_fixed">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Teléfono fijo:</label>
-                                <input type="tel" class="form-input" id="regPhoneMobile" required>
-                            </div>
-                        </div>
 
-                        <div class="form-group full-width">
-                            <label class="form-label">Calle y Número:</label>
-                            <input type="text" class="form-input" required>
-                        </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">Calle y Número:</label>
+                                <input type="text" class="form-input" name="address" required>
+                            </div>
 
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Colonia:</label>
-                                <input type="text" class="form-input" required>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Colonia:</label>
+                                    <input type="text" class="form-input" name="colony" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Código Postal:</label>
+                                    <input type="text" class="form-input" id="regCP" name="cp" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Código Postal:</label>
-                                <input type="text" class="form-input" id="regCP" required>
-                            </div>
-                        </div>
 
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Delegación / Municipio:</label>
-                                <input type="text" class="form-input" required>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Delegación / Municipio:</label>
+                                    <input type="text" class="form-input" name="municipality" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Estado:</label>
+                                    <select class="form-select" id="regState" name="state" required>
+                                        <option value="">Seleccionar</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Estado:</label>
-                                <input type="text" class="form-input" required>
-                            </div>
-                        </div>
 
                         <div class="form-group full-width">
                             <label class="form-label">Entre qué calles se encuentra su domicilio?</label>
@@ -619,7 +621,7 @@
                                 <input type="text" class="form-input" id="ref1Name">
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Teléfono celular:</label>
+                                <label class="form-label">WhatsApp:</label>
                                 <input type="tel" class="form-input" id="ref1Mobile">
                             </div>
                         </div>
@@ -630,7 +632,7 @@
                                 <input type="text" class="form-input" id="ref2Name">
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Teléfono celular:</label>
+                                <label class="form-label">WhatsApp:</label>
                                 <input type="tel" class="form-input" id="ref2Mobile">
                             </div>
                         </div>

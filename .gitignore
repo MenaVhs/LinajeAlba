@@ -1,0 +1,8 @@
+.env
+vendor/
+node_modules/
+composer.phar
+temp_check/
+temp_check_new/
+.antigravity/
+.gemini/

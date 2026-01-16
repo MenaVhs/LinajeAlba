@@ -125,100 +125,269 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 1.1 Populate State Dropdown
+    const regState = document.getElementById('regState');
+    if (regState) {
+        const states = [
+            "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas",
+            "Chihuahua", "Ciudad de México", "Coahuila", "Colima", "Durango", "Guanajuato",
+            "Guerrero", "Hidalgo", "Jalisco", "México", "Michoacán", "Morelos", "Nayarit",
+            "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí",
+            "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"
+        ];
+        states.forEach(state => {
+            const option = document.createElement('option');
+            option.value = state;
+            option.textContent = state;
+            regState.appendChild(option);
+        });
+    }
+
     // 2. Form Validation
     const form = document.getElementById('registrationForm');
     if (form) {
+        // Helper to show/clear errors
+        const showError = (input, message) => {
+            const parent = input.parentElement;
+            // Remove existing error if any
+            clearError(input);
+            const errorMsg = document.createElement('span');
+            errorMsg.className = 'error-message';
+            errorMsg.style.color = '#dc3545'; // Bootstrap danger color or standard red
+            errorMsg.style.fontSize = '0.85rem';
+            errorMsg.style.marginTop = '0.25rem';
+            errorMsg.style.display = 'block';
+            errorMsg.textContent = message;
+            parent.appendChild(errorMsg);
+            input.classList.add('input-error'); // Optional: Add a class for border styling if you want
+        };
+
+        const clearError = (input) => {
+            const parent = input.parentElement;
+            const existing = parent.querySelector('.error-message');
+            if (existing) {
+                existing.remove();
+            }
+            input.classList.remove('input-error');
+        };
+
+        const clearAllErrors = () => {
+            const errors = form.querySelectorAll('.error-message');
+            errors.forEach(el => el.remove());
+            const inputs = form.querySelectorAll('.input-error');
+            inputs.forEach(el => el.classList.remove('input-error'));
+        };
+
+        // Validate generic fields
+        const validateRequired = (input, fieldName) => {
+            if (!input.value.trim()) {
+                showError(input, `El campo ${fieldName} es obligatorio.`);
+                return false;
+            }
+            return true;
+        };
+
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            let errors = [];
+            clearAllErrors();
+            let isValid = true;
 
             // A. Name: Letters only (Tu Nombre, Ref 1, Ref 2)
             const nameInputs = [
-                { el: document.getElementById('regName'), name: "Tu Nombre" },
+                { el: document.getElementById('regName'), name: "Nombre" },
+                { el: document.getElementById('regMaName'), name: "Apellido materno" },
                 { el: document.getElementById('ref1Name'), name: "Nombre de Referencia 1" },
                 { el: document.getElementById('ref2Name'), name: "Nombre de Referencia 2" }
             ];
 
-            // Allow letters, spaces, typical accents
             const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
-            nameInputs.forEach(input => {
-                if (input.el && input.el.value.trim() !== "") {
-                    if (!nameRegex.test(input.el.value.trim())) {
-                        errors.push(`Error en ${input.name}: Solo se permiten letras (sin números ni símbolos).`);
+            nameInputs.forEach(item => {
+                if (item.el) {
+                    // Check required first if it's a required field in HTML (we can infer or hardcode)
+                    // regName and regMaName are required. References might be optional in HTML? 
+                    // Let's assume standard requirement if value is empty.
+                    // But for references, if they are empty, maybe we skip if they are optional? 
+                    // HTML says ids ref1Name/ref2Name don't have required attribute in snippet.
+                    // But let's check values.
+
+                    if (item.el.hasAttribute('required') && !item.el.value.trim()) {
+                        showError(item.el, `El campo ${item.name} es obligatorio.`);
+                        isValid = false;
+                    } else if (item.el.value.trim() !== "") {
+                        if (!nameRegex.test(item.el.value.trim())) {
+                            showError(item.el, `Solo se permiten letras.`);
+                            isValid = false;
+                        }
                     }
                 }
             });
 
-            // B. Phone: Exactly 10 digits (Tu Celular/Fijo, Ref 1/2 Celular)
+            // B. Email Validation
+            const emailInput = document.getElementById('regEmail');
+            if (emailInput) {
+                const val = emailInput.value.trim();
+                if (!val) {
+                    showError(emailInput, "El correo es obligatorio.");
+                    isValid = false;
+                } else if (!val.includes('@')) {
+                    showError(emailInput, "El correo debe incluir un '@'.");
+                    isValid = false;
+                } else {
+                    // Simple regex for format
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(val)) {
+                        showError(emailInput, "Formato de correo no válido.");
+                        isValid = false;
+                    }
+                }
+            }
+
+            // C. Phone: Exactly 10 digits
+            // Note: User swapped labels in previous edit? 
+            // regWhatsApp -> "Tu WhatsApp" (User Edit) / "Teléfono WhatsApp" (HTML)
+            // regPhoneFixed -> "Tu Teléfono Fijo" (User Edit) / "Teléfono WhatsApp" (HTML)
+            // We adhere to the user's latest JS definition or just treat all phones similarly: Optional vs Format.
+
             const phones = [
-                { el: document.getElementById('regPhoneMobile'), name: "Tu Celular" },
-                { el: document.getElementById('regPhoneFixed'), name: "Tu Teléfono Fijo" },
-                { el: document.getElementById('ref1Mobile'), name: "Celular de Referencia 1" },
-                { el: document.getElementById('ref2Mobile'), name: "Celular de Referencia 2" }
+                { el: document.getElementById('regPhoneWhatsApp'), name: "Teléfono WhatsApp" },
+                { el: document.getElementById('regPhoneFixed'), name: "Teléfono Fijo" },
+                { el: document.getElementById('ref1Mobile'), name: "WhatsApp Ref 1" },
+                { el: document.getElementById('ref2Mobile'), name: "WhatsApp Ref 2" }
             ];
 
             phones.forEach(phone => {
-                if (phone.el && phone.el.value.trim() !== "") {
-                    const phoneRegex = /^\d{10}$/;
-                    if (!phoneRegex.test(phone.el.value.trim())) {
-                        errors.push(`Error en ${phone.name}: Debe tener exactamente 10 dígitos (ni más ni menos).`);
+                const val = phone.el ? phone.el.value.trim() : "";
+                if (phone.el) {
+                    // 1. Mandatory requirement for specific fields
+                    const isRequired = phone.el.hasAttribute('required') || phone.name === "Teléfono WhatsApp";
+
+                    if (isRequired && !val) {
+                        showError(phone.el, `El campo ${phone.name} es obligatorio.`);
+                        isValid = false;
+                    }
+                    // 2. Format check if not empty
+                    else if (val !== "") {
+                        const phoneRegex = /^\d{10}$/;
+                        if (!phoneRegex.test(val)) {
+                            showError(phone.el, `El número debe tener 10 dígitos.`);
+                            isValid = false;
+                        }
                     }
                 }
             });
 
-            // C. Postal Code: Max 6 digits
+            // D. Postal Code
             const cpInput = document.getElementById('regCP');
-            const cpRegex = /^\d{1,6}$/;
-            if (cpInput && !cpRegex.test(cpInput.value.trim())) {
-                errors.push("Error en Código Postal: Debe ser numérico y máximo 6 dígitos.");
-            }
-
-            // D. Email Validation (@ check)
-            const emailInput = document.getElementById('regEmail');
-            if (emailInput && emailInput.value.trim() !== "") {
-                if (!emailInput.value.includes('@')) {
-                    errors.push("Error en Tu Correo: Falta el símbolo '@'.");
+            if (cpInput) {
+                if (!cpInput.value.trim()) {
+                    showError(cpInput, "El Código Postal es obligatorio.");
+                    isValid = false;
+                } else {
+                    const cpRegex = /^\d{1,6}$/;
+                    if (!cpRegex.test(cpInput.value.trim())) {
+                        showError(cpInput, "CP inválido (numérico, max 6 dígitos).");
+                        isValid = false;
+                    }
                 }
             }
 
-            // E. Civil Status
-            const civilStatus = document.getElementById('civilStatus');
-            if (civilStatus && civilStatus.value === "") {
-                // Optional check depending on if it is required. Assuming optional based on HTML, but good to validate if selected.
-                // However, user asked to "add options", maybe implies requirement? 
-                // HTML doesn't have 'required' on it. I will leave it as is unless value implies 'Seleccionar'.
+            // E. Date of Birth
+            const dobDay = document.getElementById('dobDay');
+            const dobMonth = document.getElementById('dobMonth');
+            const dobYear = document.getElementById('dobYear');
+
+            if (dobDay && dobMonth && dobYear) {
+                if (!dobDay.value || !dobMonth.value || !dobYear.value) {
+                    // Show error on the parent container or one of the selects?
+                    // Let's show on the last one or create a special place.
+                    // The parent is .dob-group.
+                    const dobGroup = dobDay.parentElement;
+                    // Custom error placement for group
+                    const existing = dobGroup.parentElement.querySelector('.error-message');
+                    if (existing) existing.remove();
+
+                    const errorMsg = document.createElement('span');
+                    errorMsg.className = 'error-message';
+                    errorMsg.style.color = '#dc3545';
+                    errorMsg.style.fontSize = '0.85rem';
+                    errorMsg.textContent = "Fecha de nacimiento incompleta.";
+                    errorMsg.style.display = 'block';
+                    dobGroup.parentElement.appendChild(errorMsg);
+                    isValid = false;
+                } else {
+                    // Age check
+                    const d = parseInt(dobDay.value);
+                    const m = parseInt(dobMonth.value);
+                    const y = parseInt(dobYear.value);
+                    const birthDate = new Date(y, m - 1, d);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const mDiff = today.getMonth() - birthDate.getMonth();
+                    if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+
+                    if (age < 18) {
+                        const dobGroup = dobDay.parentElement;
+                        const existing = dobGroup.parentElement.querySelector('.error-message');
+                        if (existing) existing.remove();
+
+                        const errorMsg = document.createElement('span');
+                        errorMsg.className = 'error-message';
+                        errorMsg.style.color = '#dc3545';
+                        errorMsg.style.fontSize = '0.85rem';
+                        errorMsg.textContent = "Debes ser mayor de 18 años.";
+                        errorMsg.style.display = 'block';
+                        dobGroup.parentElement.appendChild(errorMsg);
+                        isValid = false;
+                    } else {
+                        // Clear error if valid
+                        const dobGroup = dobDay.parentElement;
+                        const existing = dobGroup.parentElement.querySelector('.error-message');
+                        if (existing) existing.remove();
+                    }
+                }
             }
 
-            // D. Age Calculation (>= 18 years exactly)
-            const d = parseInt(dobDay.value);
-            const m = parseInt(dobMonth.value);
-            const y = parseInt(dobYear.value);
+            if (isValid) {
+                // Submit or Ajax
+                // alert("¡Formulario validado correctamente! Enviando datos...");
 
-            if (!d || !m || !y) {
-                errors.push("Por favor selecciona tu fecha de nacimiento completa.");
-            } else {
-                const birthDate = new Date(y, m - 1, d); // Month is 0-indexed
-                const today = new Date();
+                // Construct FormData or similar
+                const formData = new FormData(form);
 
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const mDiff = today.getMonth() - birthDate.getMonth();
+                // For now, let's simulate submission or call the real submit
+                // If using PHP action:
+                // form.submit();
 
-                // Adjust age if birthday hasn't happened yet this year
-                if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
+                // If using AJAX (implied by previous context of procesar.php):
+                const submitBtn = form.querySelector('.btn-submit');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
 
-                if (age < 18) {
-                    errors.push("Debes ser mayor de edad para registrarte (18 años cumplidos).");
-                }
-            }
-
-            if (errors.length > 0) {
-                alert(errors.join("\n"));
-            } else {
-                alert("¡Formulario validado correctamente! Enviando datos...");
-                // form.submit(); // Uncomment to actually submit
+                fetch('procesar.php', { // Verify path
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('¡Registro exitoso! Gracias por unirte.');
+                            form.reset();
+                        } else {
+                            alert('Error al enviar: ' + (data.message || 'Intente nuevamente.'));
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Hubo un error de conexión.');
+                    })
+                    .finally(() => {
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    });
             }
         });
     }
